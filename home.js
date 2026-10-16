@@ -1,5 +1,5 @@
 /* ==========================================================================
-   HERE IS TIMETABLE — PORTFOLIO · 首页脚本
+   HERE IS TIMETABLE — 首页脚本
    1) 卡阵数据：一轮 37 张专辑 —— 4 门课 + 3 门上机 + 30 个章节
       （课名、教室、周次取自课表，章节名取自教学大纲）
    2) 卡阵：一律正着摆（不转向）—— 沿一条「左高右低」的倒 C（∩）上下起伏、逐张叠压；
@@ -16,7 +16,7 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const ESCAPE_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-  const esc = (value) => String(value).replace(/[&<>"']/g, (ch) => ESCAPE_MAP[ch]);
+  const esc = (value) => String(value).replace(/[&<>\"']/g, (ch) => ESCAPE_MAP[ch]);
 
   /* ==================================================================
      一、四门课：课名 / 教室 / 周次 / 章节目录
@@ -295,7 +295,7 @@
       const shrink = (1 - metrics.shrink * k) * (1 + GROW * lift[i]);
       const layer = 2000 - Math.round(k * 1000) + Math.round(lift[i] * 3000);
 
-      /* 指针离哪张最近，哪张就是「靠近」的那张（竖直方向收一点，免得吸到页面上下角） */
+      /* 指针离哪张���近，哪张就是「靠近」的那张（竖直方向收一点，免得吸到页面上下角） */
       if (pointerY > -1e8) {
         const dx = metrics.originX + lx - pointerX;
         const dy = (metrics.originY + ly - pointerY) * NEAR_Y;
@@ -306,11 +306,28 @@
         }
       }
 
-      el.style.transform =
-        'translate3d(' + lx.toFixed(2) + 'px, ' + ly.toFixed(2) + 'px, 0) ' +
-        'rotateY(' + ry.toFixed(2) + 'deg) ' +
-        'rotateZ(' + rz.toFixed(2) + 'deg) ' +
-        'scale(' + shrink.toFixed(4) + ')';
+      // Use GSAP to set 3D transforms so we can leverage GPU and smooth interpolation.
+      if (window.gsap && typeof window.gsap.set === 'function') {
+        // translateZ is used to give subtle depth; larger k (towards edge) moves slightly backwards
+        const depth = -Math.round(k * 180);
+        gsap.set(el, {
+          x: lx,
+          y: ly,
+          z: depth,
+          rotationY: ry,
+          rotationZ: rz,
+          scale: shrink,
+          transformPerspective: 1200,
+          transformOrigin: '50% 50%'
+        });
+      } else {
+        el.style.transform =
+          'translate3d(' + lx.toFixed(2) + 'px, ' + ly.toFixed(2) + 'px, 0) ' +
+          'rotateY(' + ry.toFixed(2) + 'deg) ' +
+          'rotateZ(' + rz.toFixed(2) + 'deg) ' +
+          'scale(' + shrink.toFixed(4) + ')';
+      }
+
       el.style.zIndex = String(layer);
     }
 
