@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="only light" />
+  <title>HERE IS TIMETABLE — PORTFOLIO · 渡渡鸟骑士</title>
+  <meta name="description" content="2026 秋季学期课表：红底极简排版，横向弧形专辑卡阵，左右移动鼠标即可翻页" />
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body class="home">
+
+  <!-- ================= 左上最上面：一行小字 ================= -->
+  <p class="cover-note">2026 Autumn Semester · 计算机 2401 — 2406</p>
+
+  <!-- ================= 左上：两行大字 + 一行花字 ================= -->
+  <header class="cover">
+    <h1 class="cover-title">
+      <span class="line line-a">Here is</span>
+      <span class="line line-b">Timetable</span>
+      <span class="line line-c">Portfolio</span>
+    </h1>
+  </header>
+
+  <!-- ================= 下半：倒 C 形专辑卡阵 ================= -->
+  <main class="stage" id="stage">
+    <div class="ring" id="ring" role="group" aria-label="课程与章节专辑卡阵"></div>
+    <noscript>
+      <p class="deck-fallback">本页需要启用 JavaScript 才能显示专辑卡阵。</p>
+    </noscript>
+  </main>
+
+  <!-- ================= 右侧：三行极小黑色文字 ================= -->
+  <aside class="meta meta-name">
+    <p class="micro">Dodo Knight</p>
+    <p class="micro micro-cn">渡渡鸟骑士</p>
+  </aside>
+
+  <aside class="meta meta-info">
+    <p class="micro">04 Courses · 07 Sleeves</p>
+    <p class="micro">Weeks 01 — 18</p>
+  </aside>
+
+  <nav class="meta meta-nav" aria-label="站点导航">
+    <a class="micro link" href="courses.html">Course Notes ↗</a>
+    <a class="micro link" href="timetable.html">Timetable ↗</a>
+  </nav>
+
+  <!-- ================= 左下：极小版权行 ================= -->
+  <p class="micro colophon">
+    Red Room No.01 · 京江楼 / 昭明楼 / 文心楼 B403 · A406 · A407 · A411
+  </p>
+
+  <script src="home.js"></script>
+</body>
+</html>

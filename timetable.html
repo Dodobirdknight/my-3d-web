@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>周课表 · Cosmic Timetable</title>
+  <meta name="description" content="2026 秋季学期周课表：第 1—18 周，理论 / 上机，可左右翻周" />
+  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="timetable.css" />
+</head>
+<body class="timetable-page">
+  <!-- 星流粒子背景 -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <!-- 顶部导航 -->
+  <nav class="topnav" aria-label="站点导航">
+    <a class="nav-brand" href="index.html">COSMIC<i>·</i>TIMETABLE<i>2026</i></a>
+    <div class="nav-links">
+      <a class="nav-pill" href="index.html">首页 ↩</a>
+      <a class="nav-pill" href="courses.html">课程资料 ↗</a>
+      <span class="nav-pill is-static">周课表</span>
+    </div>
+  </nav>
+
+  <main class="stage">
+    <header class="masthead">
+      <p class="eyebrow">2026 Autumn &middot; Semester Schedule</p>
+      <h1 class="title display">课表</h1>
+      <p class="meta" id="semesterMeta"></p>
+      <ul class="legend">
+        <li><span class="key key-theory" aria-hidden="true"></span>理论课</li>
+        <li><span class="key key-lab" aria-hidden="true"></span>上机 / 课程设计</li>
+        <li><span class="key key-note" aria-hidden="true"></span>昭明楼第 3-4 节 10:05 开始</li>
+      </ul>
+    </header>
+
+    <section class="timetable" aria-label="一周课程安排">
+      <div class="panel-head">
+        <button class="nav-btn" id="prevWeek" type="button" aria-label="上一周" title="上一周（←）">
+          <span aria-hidden="true">&#8249;</span>
+        </button>
+        <div class="week-info">
+          <p class="week-title" id="weekLabel" aria-live="polite">第 1 周</p>
+          <p class="week-range" id="weekRange"></p>
+        </div>
+        <button class="nav-btn" id="nextWeek" type="button" aria-label="下一周" title="下一周（→）">
+          <span aria-hidden="true">&#8250;</span>
+        </button>
+      </div>
+
+      <div class="viewport" id="viewport">
+        <div class="track" id="track"></div>
+      </div>
+
+      <div class="panel-foot">
+        <div class="progress" aria-hidden="true"><span class="progress-bar" id="progressBar"></span></div>
+        <div class="foot-row">
+          <p class="counter" id="counter"></p>
+          <button class="ghost-btn" id="todayBtn" type="button" title="回到当前教学周（Home）">回到本周</button>
+        </div>
+        <p class="hint">&larr; &rarr; 或拖拽切换周次 · 鼠标划过课程会轻轻浮起</p>
+      </div>
+    </section>
+
+    <noscript><p class="hint">本页需要启用 JavaScript 才能渲染课表。</p></noscript>
+  </main>
+
+  <script src="timetable.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>课程资料 · Cosmic Timetable</title>
+  <meta name="description" content="黑场纸页扇：画面正中央一个书脊点，八张有厚度的纸向左右两侧呈放射状摊开，横拖即开合，点一张把它翻过来" />
+  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="courses.css" />
+</head>
+<body class="courses">
+
+  <!-- ================= 左上：极简身份区（极细大字 + 极小字，大小对比拉开） ================= -->
+  <header class="mast">
+    <h1 class="mast-name">Dodo<br />Knight</h1>
+
+    <p class="mast-cn">渡渡鸟骑士 · 计算机 2401 — 2406</p>
+
+    <dl class="mast-meta">
+      <div><dt>Mail</dt><dd>hello@dodo.knight</dd></div>
+      <div><dt>Tel</dt><dd>+86 138 0000 0000</dd></div>
+      <div><dt>Term</dt><dd>2026 Autumn · Weeks 01 — 18</dd></div>
+      <div><dt>Files</dt><dd id="idenFiles">04 Courses · 08 Plates</dd></div>
+    </dl>
+
+    <nav class="mast-nav" aria-label="站点导航">
+      <a class="mast-link" href="index.html">Home ↗</a>
+      <span class="mast-link is-now">Course Notes</span>
+      <a class="mast-link" href="timetable.html">Timetable ↗</a>
+    </nav>
+  </header>
+
+  <!-- ================= 舞台：书脊点在画面正中央，八张纸围着它向两侧放射状摊开 ================= -->
+  <main class="stage" id="stage" aria-label="课程纸页扇">
+    <canvas class="view" id="view" width="1280" height="720" aria-hidden="true"></canvas>
+
+    <!-- 画布起不来（没有 WebGL）时显出来 -->
+    <p class="stage-note" id="stageNote" hidden>
+      这台设备的浏览器没有可用的 WebGL，纸页扇没能立起来。<br />
+      右下角的「资料」照样能翻出每一张纸上的东西。
+    </p>
+
+    <!-- 八张纸在 DOM 里的替身：视觉上藏起来，Tab 走得进来，回车即开资料 -->
+    <ul class="plates" id="plates" aria-label="八张纸"></ul>
+
+    <noscript>
+      <p class="stage-note">本页需要启用 JavaScript 才能渲染纸页扇。</p>
+    </noscript>
+  </main>
+
+  <!-- ================= 右下：极小控制条 ================= -->
+  <div class="dock">
+    <label class="dock-range" for="openness">
+      <span class="dock-cap">翻开 <b id="openVal">60%</b></span>
+      <input type="range" id="openness" min="0" max="100" value="60" step="1" />
+    </label>
+    <label class="dock-range" for="lean">
+      <span class="dock-cap">俯视 <b id="leanVal">09°</b></span>
+      <input type="range" id="lean" min="-6" max="26" value="9" step="1" />
+    </label>
+    <button class="dock-btn" type="button" id="detailBtn">资料</button>
+    <button class="dock-btn" type="button" id="autoBtn" aria-pressed="true">静动</button>
+    <button class="dock-btn" type="button" id="resetBtn">重置</button>
+  </div>
+
+  <!-- ================= 左下：极小提示 ================= -->
+  <p class="hint">
+    横拖 = 把书翻开 / 合上 · 纵移 = 俯视角度 · 滚轮 = 拉近拉远 · 点一张 = 翻过来 · 双击 = 资料
+  </p>
+
+  <!-- ================= 资料抽屉 ================= -->
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="detail" id="detail" role="dialog" aria-modal="true"
+         aria-labelledby="detailTitle" hidden>
+    <button class="detail-close" type="button" id="detailClose" aria-label="关闭">✕</button>
+    <div class="detail-sheet" id="detailSheet"></div>
+  </aside>
+
+  <!-- three.js（UMD 版本，双击打开页面也能跑）必须先于 courses.js -->
+  <script src="vendor/three.min.js"></script>
+  <script src="courses.js"></script>
+</body>
+</html>
+

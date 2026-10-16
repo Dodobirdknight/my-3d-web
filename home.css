@@ -1,0 +1,350 @@
+/* ==========================================================================
+   HERE IS TIMETABLE — PORTFOLIO · 首页
+   纯大红色 #FF0000 底 · 杂志封面式标题 · 横向 3D 弧形专辑卡阵
+   规矩：不加渐变、不加粒子、不加图标，只有红 / 黑与卡面自身的专辑配色
+   ========================================================================== */
+
+:root {
+  --red: #ff0000;
+  --ink: #000000;
+  --gutter: clamp(18px, 3.2vw, 52px);
+  --micro: 9.5px;
+  --sans: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --serif: "Bodoni MT", Didot, "Times New Roman", "Songti SC", "SimSun", serif;
+  --silk: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html,
+body { height: 100%; }
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--red);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- 极小文字：全站唯一的注释字号 ---------- */
+
+.micro {
+  margin: 0;
+  font-size: var(--micro);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  line-height: 1.9;
+  text-transform: uppercase;
+}
+
+.micro-cn { letter-spacing: 0.34em; }
+
+.link {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.link::after {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  content: "";
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.7s var(--silk);
+}
+
+.link:hover::after,
+.link:focus-visible::after { transform: scaleX(1); }
+
+/* ---------- 封面标题（左上：小字在上，三行大字在下） ---------- */
+
+.cover {
+  position: fixed;
+  left: var(--gutter);
+  top: clamp(56px, 16vh, 168px);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.cover-title {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.line {
+  display: block;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+/* 大字：照着参考图——字重再压黑一档，两行之间留出可见的一道红 */
+.line-a,
+.line-b {
+  font-size: clamp(22px, min(4.05vw, 7.6vh), 74px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: 0.028em;
+  -webkit-text-stroke: 0.012em var(--red);
+}
+
+/* 第三行「花字」：参考图里它比上面两行更大，高对比意大利体 + 极浅一层立体影 */
+.line-c {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(24px, min(5vw, 9.4vh), 92px);
+  line-height: 1.02;
+  letter-spacing: 0.06em;
+  text-shadow:
+    0.022em 0.03em 0 rgba(0, 0, 0, 0.34),
+    0.045em 0.062em 0 rgba(0, 0, 0, 0.13);
+}
+
+/* 那行小字：单独钉在左边最上面，与右上角的落款同一水平线 */
+.cover-note {
+  position: fixed;
+  left: var(--gutter);
+  top: clamp(24px, 4.4vh, 46px);
+  z-index: 6;
+  margin: 0;
+  font-size: var(--micro);
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  line-height: 1.9;
+  text-transform: uppercase;
+}
+
+/* ---------- 舞台与弧形卡阵 ---------- */
+
+/* 每张卡的层叠顺序由 z-index 定 —— 于是最靠中间的那张永远压住左右邻卡 */
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* 卡阵原点：屏幕中轴偏下——中间最高，两端沿倒 C 沉下去，且左高右低，整条卡带落在下半幅 */
+.ring {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 0;
+  height: 0;
+}
+
+/* 一张卡 = 一张专辑：方封套 + 扑克牌式的厚度与投影 */
+.sleeve {
+  --u: calc(var(--cw) / 100);
+  --pad: calc(var(--u) * 6);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--cw);
+  height: var(--cw);
+  margin-left: calc(var(--cw) / -2);
+  margin-top: calc(var(--cw) / -2);
+  padding: var(--pad);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--bg);
+  color: var(--fg);
+  text-decoration: none;
+  will-change: transform, opacity;
+  transition: opacity 0.5s var(--silk);
+  box-shadow:
+    calc(var(--u) * 1.1) calc(var(--u) * 1.5) 0 rgba(0, 0, 0, 0.3),
+    calc(var(--u) * 2.2) calc(var(--u) * 3) 0 rgba(0, 0, 0, 0.16),
+    0 calc(var(--u) * 15) calc(var(--u) * 26) rgba(0, 0, 0, 0.28);
+}
+
+/* 封套边缘的一根发丝线 */
+.sleeve::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  border: 1px solid var(--edge);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* 靠近鼠标的那张：原地放大成一张方卡，影子再压重一点 */
+.sleeve.is-lift {
+  box-shadow:
+    calc(var(--u) * 1.1) calc(var(--u) * 1.5) 0 rgba(0, 0, 0, 0.32),
+    calc(var(--u) * 2.2) calc(var(--u) * 3) 0 rgba(0, 0, 0, 0.18),
+    0 calc(var(--u) * 22) calc(var(--u) * 38) rgba(0, 0, 0, 0.44);
+}
+
+/* ---------- 卡面排版（小卡：注释字号相对放大，保证还看得清） ---------- */
+
+.sv-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: calc(var(--u) * 6.4);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.sv-name {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 2.6);
+}
+
+.sv-cn {
+  font-size: calc(var(--cw) * var(--cn, 0.2));
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: 0.005em;
+}
+
+.sv-en {
+  font-size: calc(var(--u) * 6.8);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.sv-foot {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 1.6);
+  padding-top: calc(var(--u) * 3);
+  border-top: 1px solid;
+  font-size: calc(var(--u) * 6.8);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+/* ---------- 三种版面：同一套字，不同的排法 ---------- */
+
+/* A · 标题靠上，信息压底 */
+.sv-a .sv-name { margin-top: calc(var(--u) * 7); }
+
+/* B · 标题与信息一起压在底部 */
+.sv-b .sv-name { margin-top: auto; }
+.sv-b .sv-foot { margin-top: calc(var(--u) * 5); }
+.sv-b .sv-head {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  top: var(--pad);
+}
+
+/* C · 全部居中对齐，页眉页脚贴边 */
+.sv-c {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.sv-c .sv-name { gap: calc(var(--u) * 3.4); }
+
+.sv-c .sv-head,
+.sv-c .sv-foot {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+}
+
+.sv-c .sv-head { top: var(--pad); }
+.sv-c .sv-foot { bottom: var(--pad); align-items: center; }
+
+/* ---------- 七张专辑的七种封套配色 ---------- */
+
+.skin-cream  { --bg: #ece7dd; --fg: #0b0b0b; --edge: rgba(0, 0, 0, 0.4); }
+.skin-ink    { --bg: #0a0a0a; --fg: #f1ede4; --edge: rgba(255, 255, 255, 0.32); }
+.skin-cobalt { --bg: #1c2df0; --fg: #f2f2ee; --edge: rgba(255, 255, 255, 0.4); }
+.skin-acid   { --bg: #d5ff24; --fg: #0b0b0b; --edge: rgba(0, 0, 0, 0.4); }
+.skin-white  { --bg: #fafaf6; --fg: #0b0b0b; --edge: rgba(0, 0, 0, 0.34); }
+.skin-blush  { --bg: #ff9ec2; --fg: #0b0b0b; --edge: rgba(0, 0, 0, 0.34); }
+.skin-tang   { --bg: #ff6a12; --fg: #0b0b0b; --edge: rgba(0, 0, 0, 0.34); }
+
+/* ---------- 右侧 / 左下的极小文字块 ---------- */
+
+.meta {
+  position: fixed;
+  z-index: 6;
+  text-align: right;
+}
+
+.meta-name { top: clamp(24px, 4.4vh, 46px); right: var(--gutter); }
+.meta-info { top: 44%; right: var(--gutter); }
+.meta-nav {
+  bottom: clamp(24px, 4.4vh, 46px);
+  right: var(--gutter);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.colophon {
+  position: fixed;
+  left: var(--gutter);
+  bottom: clamp(24px, 4.4vh, 46px);
+  z-index: 6;
+  max-width: 42ch;
+  line-height: 1.7;
+}
+
+/* ---------- 卡阵兜底提示（只在没有 JavaScript 时出现） ---------- */
+
+.deck-fallback {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: clamp(40px, 7vh, 80px);
+  margin: 0;
+  font-size: var(--micro);
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* ---------- 键盘焦点 ---------- */
+
+:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+
+/* ---------- 窄屏 / 矮屏 ---------- */
+
+@media (max-width: 760px) {
+  .cover { top: clamp(50px, 11vh, 92px); }
+  .cover-note { letter-spacing: 0.14em; }
+  .meta-info { top: 34%; }
+  .colophon { display: none; }
+}
+
+@media (max-width: 560px) {
+  .ring { top: 58%; }
+}
+
+@media (max-height: 680px) {
+  .meta-info { top: 32%; }
+  .ring { top: 58%; }
+}
