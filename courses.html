@@ -33,15 +33,18 @@
 
   <!-- ================= 舞台：书脊点在画面正中央，八张纸围着它向两侧放射状摊开 ================= -->
   <main class="stage" id="stage" aria-label="课程纸页扇">
+    <!-- Canvas kept for legacy; textures are drawn to canvases and used as CSS backgrounds. -->
     <canvas class="view" id="view" width="1280" height="720" aria-hidden="true"></canvas>
 
-    <!-- 画布起不来（没有 WebGL）时显出来 -->
+    <!-- 当使用纯 CSS/DOM 渲染时，下面会插入 .fan 与 .plate 元素 -->
+    <div class="fan" id="fan" role="group" aria-label="八张纸页扇"></div>
+
+    <!-- 画布起不来（没有 WebGL）时的说明（仍保留，但不作为错误） -->
     <p class="stage-note" id="stageNote" hidden>
-      这台设备的浏览器没有可用的 WebGL，纸页扇没能立起来。<br />
-      右下角的「资料」照样能翻出每一张纸上的东西。
+      这台设备的浏览器不需要 WebGL，纸页扇以纯 CSS 3D 渲染。
     </p>
 
-    <!-- 八张纸在 DOM 里的替身：视觉上藏起来，Tab 走得进来，回车即开资料 -->
+    <!-- 八张纸在 DOM 里的替身：键盘 / 读屏照样走着到 -->
     <ul class="plates" id="plates" aria-label="八张纸"></ul>
 
     <noscript>
@@ -77,9 +80,7 @@
     <div class="detail-sheet" id="detailSheet"></div>
   </aside>
 
-  <!-- three.js（UMD 版本，双击打开页面也能跑）必须先于 courses.js -->
-  <script src="vendor/three.min.js"></script>
+  <!-- 用纯 CSS 3D + DOM 替代 three.js 渲染 -->
   <script src="courses.js"></script>
 </body>
 </html>
-
